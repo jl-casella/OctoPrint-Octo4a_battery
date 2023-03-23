@@ -68,7 +68,7 @@ class Octo4a_batteryPlugin(octoprint.plugin.SettingsPlugin,
             f = open(path, "r")
             self._batteryLevel = f.read().strip()
         except:
-            self._batteryLevel = "invalid path"; 
+            self._batteryLevel = "ivl path"; 
         # self._batteryLevelTmp -= 1
         batteryStatus = "Full"
         self._logger.debug("match: level: %s" % self._batteryLevel)
