@@ -60,15 +60,26 @@ class Octo4a_batteryPlugin(octoprint.plugin.SettingsPlugin,
         myobj = {'chat_id':self._settings.get(["telegramChatID"]),'text':f'🚨Warning🚨 Battery Level is below { threshold}% (Battery Level: {value}%)'}
 
         x = requests.post(url, json = myobj)
+        
+    def get_battery_level(self):
+        battery = self.shell("dumpsys battery")
+
+        for line in battery.split('\n'):
+            tokens = line.split(":")
+            if tokens[0].strip() == "level" and len(tokens) == 2:
+                return int(tokens[1])
+
+        return None
 
     def update_battery(self):
 
         try:
-            path = self._settings.get(["batteryLevelPath"])
-            f = open(path, "r")
-            self._batteryLevel = f.read().strip()
+            # path = self._settings.get(["batteryLevelPath"])
+            # f = open(path, "r")
+            # self._batteryLevel = f.read().strip()
+            self._batteryLevel = self.get_battery_level()
         except:
-            self._batteryLevel = "ivl path"; 
+            self._batteryLevel = "--"; 
         # self._batteryLevelTmp -= 1
         batteryStatus = "Full"
         self._logger.debug("match: level: %s" % self._batteryLevel)
