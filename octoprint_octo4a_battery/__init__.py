@@ -78,8 +78,8 @@ class Octo4a_batteryPlugin(octoprint.plugin.SettingsPlugin,
             # f = open(path, "r")
             # self._batteryLevel = f.read().strip()
             self._batteryLevel = self.get_battery_level()
-        except:
-            self._batteryLevel = "--"; 
+        except AssertionError as error:
+            self._batteryLevel = error; 
         # self._batteryLevelTmp -= 1
         batteryStatus = "Full"
         self._logger.debug("match: level: %s" % self._batteryLevel)
